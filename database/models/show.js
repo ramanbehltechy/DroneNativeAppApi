@@ -110,6 +110,12 @@ const showSchema = new mongoose.Schema(
                 trim: true
             }
         },
+        createdBy : {
+            type: mongoose.Types.ObjectId,
+            ref : "user",
+            trim: true,
+            required: [true, "Created By is requied"]
+        }
     },
     { timestamps: true }
 );

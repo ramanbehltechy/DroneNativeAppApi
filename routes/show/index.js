@@ -4,7 +4,8 @@ const router = express.Router();
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
-
+const checkToken = require("../../middleware/checkToken");
+const isAdmin = require("../../middleware/isAdmin");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -31,11 +32,10 @@ const storage = multer.diskStorage({
 
 
 const upload = multer({ storage });
-router.get("/api/show", showController.getShow);
-router.get("/api/show/:id", showController.getShow);
-router.post("/api/show", upload.fields([{ name: 'preShowFile', maxCount: 1 }, { name: 'file', maxCount: 1 }, { name: 'postShowFile', maxCount: 1 }]), showController.postShow);
-router.get("/api/musicFile/:file", showController.getMusicFile);
-router.post("/api/near-show", showController.checkNearShow);
-router.get("/api/search", showController.searchShow);
+router.get("/show",checkToken, showController.getShow);
+router.get("/show/:id",checkToken, showController.getShow);
+router.post("/show",checkToken,upload.fields([{ name: 'preShowFile', maxCount: 1 }, { name: 'file', maxCount: 1 }, { name: 'postShowFile', maxCount: 1 }]), showController.postShow);
+router.put("/edit-show/:id",checkToken,isAdmin, upload.fields([{ name: 'preShowFile', maxCount: 1 }, { name: 'file', maxCount: 1 }, { name: 'postShowFile', maxCount: 1 }]), showController.editShow);
+router.delete('/delete-show/:id',checkToken,isAdmin, showController.deleteshow)
 
 module.exports = router;

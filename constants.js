@@ -1,3 +1,3 @@
 module.exports = {
-    FILE_API: "api/musicFile/",
+    FILE_API: "mobile/musicFile/",
 };
